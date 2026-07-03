@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>McDonald's Sangandaan Caloocan — CRP June 2026 Winners</title>
+<style>
+  :root{
+    --mc-red:#DA291C;
+    --mc-red-dark:#7a0f09;
+    --mc-gold:#FFC72C;
+    --mc-gold-soft:#ffe08a;
+    --bg-deep:#0c0303;
+    --glass:rgba(255,255,255,.06);
+    --glass-border:rgba(255,199,44,.35);
+    --text:#fff7e6;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Segoe UI',Arial,sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(circle at 20% 15%, rgba(218,41,28,.35), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(255,199,44,.18), transparent 50%),
+      linear-gradient(135deg,var(--bg-deep),#1a0505 55%,var(--bg-deep));
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* animated grid / scanline backdrop for a futuristic feel */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(rgba(255,199,44,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,199,44,.06) 1px, transparent 1px);
+    background-size:42px 42px;
+    animation:gridMove 18s linear infinite;
+    pointer-events:none;
+    z-index:0;
+  }
+  @keyframes gridMove{
+    0%{background-position:0 0,0 0;}
+    100%{background-position:0 400px,400px 0;}
+  }
+
+  .glow-orb{
+    position:fixed; border-radius:50%;
+    filter:blur(70px); opacity:.5; z-index:0; pointer-events:none;
+  }
+  .orb1{width:340px;height:340px; background:var(--mc-red); top:-100px; left:-100px; animation:float 9s ease-in-out infinite;}
+  .orb2{width:260px;height:260px; background:var(--mc-gold); bottom:-80px; right:-60px; animation:float 11s ease-in-out infinite reverse;}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px)}}
+
+  .screen{
+    position:relative; z-index:1;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    min-height:100vh; width:100%;
+    padding:100px 20px 70px;
+  }
+
+  .topbar{
+    position:fixed; top:0; left:0; right:0; z-index:2;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px; flex-wrap:wrap;
+    padding:12px 16px;
+    background:linear-gradient(180deg, rgba(12,3,3,.85), transparent);
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-weight:800; letter-spacing:.5px;
+    font-size:clamp(13px,3vw,16px);
+    min-width:0;
+  }
+  .brand small{display:block; font-weight:400; color:var(--mc-gold-soft); font-size:clamp(9px,2.2vw,11px); letter-spacing:1.2px;}
+
+  .wave-pill{
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(10px);
+    padding:7px 14px;
+    border-radius:999px;
+    font-size:clamp(11px,2.6vw,13px);
+    font-weight:700;
+    color:var(--mc-gold);
+    box-shadow:0 0 18px rgba(255,199,44,.15);
+    white-space:nowrap;
+  }
+
+  .card{
+    position:relative;
+    background:var(--glass);
+    backdrop-filter:blur(14px);
+    border:1px solid var(--glass-border);
+    padding:clamp(20px,4vw,36px);
+    border-radius:22px;
+    max-width:760px;
+    width:100%;
+    box-shadow:0 0 40px rgba(218,41,28,.25), inset 0 0 60px rgba(255,199,44,.04);
+    animation:cardIn .45s ease;
+  }
+  @keyframes cardIn{
+    from{opacity:0; transform:translateY(16px) scale(.98);}
+    to{opacity:1; transform:translateY(0) scale(1);}
+  }
+
+  .wave-title{
+    margin:0 0 4px 0;
+    font-size:clamp(11px,2.6vw,14px);
+    text-transform:uppercase;
+    letter-spacing:2px;
+    color:var(--mc-gold);
+    font-weight:700;
+  }
+  .wave-name{
+    margin:0 0 18px 0;
+    font-size:clamp(18px,4.5vw,26px);
+    font-weight:800;
+    background:linear-gradient(90deg,var(--mc-gold),#fff, var(--mc-gold));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+
+  .dots{display:flex; gap:6px; margin-bottom:20px; flex-wrap:wrap;}
+  .dot{
+    width:clamp(22px,6vw,34px); height:6px; border-radius:4px;
+    background:rgba(255,255,255,.15);
+    transition:background .3s, box-shadow .3s;
+  }
+  .dot.done{background:var(--mc-gold); box-shadow:0 0 10px rgba(255,199,44,.8);}
+  .dot.current{background:var(--mc-red); box-shadow:0 0 10px rgba(218,41,28,.9);}
+
+  .question{
+    font-size:clamp(15px,3.6vw,19px);
+    line-height:1.5;
+    margin-bottom:20px;
+    font-weight:600;
+    color:#fff;
+  }
+
+  .opt{
+    display:block;
+    width:100%;
+    text-align:left;
+    margin:9px 0;
+    padding:clamp(11px,2.6vw,14px) clamp(12px,3vw,18px);
+    font-size:clamp(13.5px,3vw,15.5px);
+    border:1px solid rgba(255,199,44,.3);
+    border-radius:12px;
+    background:rgba(255,255,255,.04);
+    color:var(--text);
+    cursor:pointer;
+    transition:transform .15s, background .2s, border-color .2s, box-shadow .2s;
+  }
+  .opt:hover{
+    background:linear-gradient(90deg, rgba(255,199,44,.18), rgba(218,41,28,.12));
+    border-color:var(--mc-gold);
+    transform:translateX(4px);
+    box-shadow:0 0 16px rgba(255,199,44,.25);
+  }
+  .opt:active{transform:scale(.98);}
+  .opt .letter{
+    display:inline-block;
+    width:clamp(22px,5vw,26px); height:clamp(22px,5vw,26px);
+    line-height:clamp(22px,5vw,26px);
+    text-align:center;
+    border-radius:50%;
+    background:var(--mc-red);
+    color:#fff;
+    font-weight:800;
+    font-size:12px;
+    margin-right:10px;
+  }
+
+  .flash{
+    position:fixed; inset:0; z-index:5;
+    display:flex; align-items:center; justify-content:center;
+    pointer-events:none; opacity:0;
+    padding:0 16px;
+  }
+  .flash.show{animation:flashPop .7s ease forwards;}
+  @keyframes flashPop{
+    0%{opacity:0; transform:scale(.8);}
+    20%{opacity:1; transform:scale(1.05);}
+    70%{opacity:1;}
+    100%{opacity:0; transform:scale(1.1);}
+  }
+  .flash .msg{
+    font-size:clamp(22px,6vw,34px); font-weight:900; letter-spacing:1px;
+    padding:16px 28px; border-radius:16px;
+    text-align:center;
+  }
+  .flash.correct .msg{background:rgba(46,160,67,.9); color:#fff; box-shadow:0 0 40px rgba(46,160,67,.6);}
+  .flash.wrong .msg{background:rgba(218,41,28,.92); color:#fff; box-shadow:0 0 40px rgba(218,41,28,.7);}
+
+  #popup{
+    position:fixed; inset:0; z-index:6;
+    display:none; align-items:center; justify-content:center;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(6px);
+  }
+  #pop{
+    background:linear-gradient(160deg,#1a0505,#2b0906);
+    border:1px solid var(--glass-border);
+    color:var(--text);
+    padding:clamp(24px,5vw,36px) clamp(20px,5vw,40px);
+    border-radius:20px;
+    text-align:center;
+    max-width:420px;
+    width:90%;
+    box-shadow:0 0 60px rgba(255,199,44,.35);
+    animation:cardIn .4s ease;
+  }
+  #pop .label{
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:11px;
+    color:var(--mc-gold-soft);
+    margin-bottom:6px;
+  }
+  #pop h2{
+    margin:0 0 14px 0;
+    font-size:clamp(19px,4.5vw,24px);
+    color:var(--mc-gold);
+    text-shadow:0 0 14px rgba(255,199,44,.6);
+  }
+  #wi{
+    max-width:180px; width:100%;
+    border-radius:14px;
+    border:2px solid var(--mc-gold);
+    margin:10px 0 16px 0;
+    box-shadow:0 0 24px rgba(255,199,44,.4);
+  }
+  #wn{margin:0 0 22px 0; font-size:clamp(16px,4vw,20px); font-weight:800; color:#fff;}
+
+  button.cta{
+    padding:clamp(11px,2.6vw,13px) clamp(22px,5vw,30px);
+    font-size:clamp(14px,3.2vw,16px);
+    font-weight:800;
+    border:0;
+    border-radius:999px;
+    background:linear-gradient(90deg,var(--mc-gold),#ffdd6b);
+    color:#3a1300;
+    cursor:pointer;
+    letter-spacing:.5px;
+    box-shadow:0 0 22px rgba(255,199,44,.5);
+    transition:transform .15s, box-shadow .2s;
+  }
+  button.cta:hover{transform:translateY(-2px); box-shadow:0 0 30px rgba(255,199,44,.75);}
+  button.cta:active{transform:translateY(0);}
+
+  .final-banner{
+    text-align:center;
+  }
+  .final-banner h1{
+    font-size:clamp(24px,6vw,32px);
+    background:linear-gradient(90deg,var(--mc-gold),#fff,var(--mc-red));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    margin-bottom:10px;
+  }
+  .final-banner p{color:var(--mc-gold-soft); font-size:clamp(13px,3.2vw,15px);}
+
+  .site-footer{
+    position:fixed;
+    bottom:0; left:0; right:0;
+    z-index:2;
+    text-align:center;
+    padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+    font-size:11px;
+    letter-spacing:1px;
+    color:var(--mc-gold-soft);
+    background:linear-gradient(0deg, rgba(12,3,3,.85), transparent);
+  }
+
+  .final-img{
+    max-width:min(260px,70vw);
+    width:100%;
+    border-radius:16px;
+    border:2px solid var(--mc-gold);
+    box-shadow:0 0 30px rgba(255,199,44,.45);
+    margin:16px 0;
+  }
+
+  /* ===== Responsive breakpoints: phone / tablet / laptop+ ===== */
+
+  /* Phones */
+  @media (max-width:480px){
+    .screen{padding:88px 14px 60px;}
+    .card{border-radius:18px;}
+    .brand small{display:none;}
+    .topbar{padding:10px 14px;}
+    #wi{max-width:150px;}
+  }
+
+  /* Small phones */
+  @media (max-width:360px){
+    .wave-pill{padding:6px 10px;}
+    .opt{padding:11px 12px;}
+  }
+
+  /* Tablets (portrait & landscape) */
+  @media (min-width:481px) and (max-width:1024px){
+    .card{max-width:640px;}
+    .screen{padding:96px 24px 64px;}
+  }
+
+  /* Laptop / desktop */
+  @media (min-width:1025px){
+    .card{max-width:780px;}
+    .screen{padding:110px 24px 70px;}
+  }
+
+  /* Large desktop */
+  @media (min-width:1440px){
+    .card{max-width:840px;}
+  }
+
+  /* Landscape phones — tighter vertical spacing */
+  @media (max-height:480px) and (orientation:landscape){
+    .screen{padding:76px 20px 56px;}
+    .card{padding:18px;}
+    .opt{margin:6px 0; padding:10px 14px;}
+    .dots{margin-bottom:12px;}
+    .question{margin-bottom:12px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
+
+<div class="topbar">
+  <div class="brand">
+    <div>
+      McDonald's Sangandaan Caloocan
+      <small>CRP JUNE 2026 WINNERS CHALLENGE</small>
+    </div>
+  </div>
+  <div class="wave-pill" id="wavePill">Rising Star Challenge</div>
+</div>
+
+<div id="game" class="screen">
+  <div class="card">
+    <div id="content"></div>
+  </div>
+</div>
+
+<div id="flashEl" class="flash"><div class="msg" id="flashMsg"></div></div>
+
+<div id="popup">
+  <div id="pop">
+    <div class="label">Winner Unlocked</div>
+    <h2 id="wt"></h2>
+    <img id="wi" src="" alt="winner">
+    <h3 id="wn"></h3>
+    <button class="cta" onclick="nextWave()">Continue</button>
+  </div>
+</div>
+
+<footer class="site-footer">ArevaloDevs &copy; 2026</footer>
+
+<script>
+const winners=[
+{title:"Rising Star",img:"crp_kim.jpg"},
+{title:"Service Sunshine",img:"crp_CHESKA.jpg"},
+{title:"Quality Expert",img:"crp_kajo.jpg"},
+{title:"Chicken McDo Master",img:"crp_CYRUZ.jpg"},
+{title:"Standout Performer",img:"crp_CHESKA.jpg"}
+];
+
+const questions=[
+{q:"What does R2P stand for, and what is the target time?",a:["Ready to Present – 60 seconds","Receipt to Present – 90 seconds","Receipt to Prepare – 120 seconds","Ready to Pay – 90 seconds"],c:1},
+{q:"A guest asks for information about a food allergen. What should you do?",a:["Refer the guest to the menu board.","Ask a fellow crew member.","Seek assistance from the Manager.","Recommend another product immediately."],c:2},
+{q:"What is the correct sequence for handling guest requests and complaints?",a:["Listen → Solve → Thank → Apologize","Listen attentively → Apologize while showing understanding → Solve the problem (Make It Right) → Thank the guest","Apologize → Refer to Manager → Thank the guest","Listen → Explain company policy → End the conversation"],c:1},
+{q:"Who is the People Coordinator of McDonald's Sangandaan?",a:["Rhoniel Garcia","Janna Sta. Ana","Angelu Alaano","Ms. Monique Bacaycay"],c:3},
+{q:"When is the launch of the new Mix & Match promotion?",a:["July 1, 2026","July 2, 2026","July 3, 2026","July 5, 2026"],c:2},
+{q:"How many minutes are allocated for a crew break?",a:["15 minutes","20 minutes","25 minutes","30 minutes"],c:1},
+{q:"What are the four attributes of Gold Standard Quality?",a:["Appearance, Aroma, Taste, Freshness","Temperature, Freshness, Texture, Taste","Appearance, Texture, Taste, Temperature","Texture, Cleanliness, Temperature, Aroma"],c:2},
+{q:"What is the required temperature for the Walk-In Cooler?",a:["45°F or below","40°F or below","42°F or below","50°F or below"],c:1},
+{q:"What is the required temperature range for the Walk-In Freezer?",a:["5°F to 15°F","0°F to 10°F","-5°F to 5°F","10°F to 20°F"],c:1},
+{q:"What is the required temperature for Hot Holding?",a:["135°F or above","145°F or above","140°F or above","150°F or above"],c:2},
+{q:"Where can you find the Food Allergen Guide?",a:["Crew Room","Manager's Office","Kitchen Station","Service Area"],c:3},
+{q:"Products must be stored at least _____ above the floor.",a:["4 inches","6 inches","8 inches","10 inches"],c:1},
+{q:"How should boxes be stacked in storage?",a:["Straight Stack","Pyramid Stack","Double Stack","Crisscross"],c:3},
+{q:"Where should broken packs be stored?",a:["Plastic Bag","Original Box","Covered Tray","Food Pan with Lid"],c:3},
+{q:"Chemicals should only be stored in designated areas such as:",a:["Dry Storage","Receiving Area","Operations Cabinet and Chemical Rack","Service Counter"],c:2},
+{q:"What is the secondary shelf life of coffee-based drinks?",a:["4 hours","5 hours","6 hours","8 hours"],c:2},
+{q:"What is the required internal temperature of bone-in chicken?",a:["155°F–170°F","165°F–185°F","170°F–190°F","160°F–180°F"],c:1},
+{q:"Who is the People Department Manager?",a:["Mark Joseph Arevalo","Arienn Macaspac","Myralyn Luega","Roxanne Pacistol"],c:3},
+{q:"What does OEPE stand for, and what is the target time?",a:["Order Entry to Payment End – 90 seconds","Order End to Pick-up End – 100 seconds","Order End to Present End – 120 seconds","Order Entry to Present End – 150 seconds"],c:2},
+{q:"What does FGM stand for?",a:["Fast Guest Management","Friendly Guest Moments","Food Guest Monitoring","Feel Good Moments"],c:3},
+{q:"What is McDonald's Brand Promise?",a:["Serving Great Food Every Day.","Making Every Visit Memorable.","Delicious Food, Friendly Service, Always.","We create delicious Feel Good Moments, easy for everyone."],c:3}
+];
+
+let wave=0, set=[], pos=0;
+let usedQuestions = new Set(); // questions from waves already fully completed — never shown again
+
+function sh(arr){
+  arr=[...arr];
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function challengeName(w){
+  return winners[w].title.toUpperCase() + ' CHALLENGE';
+}
+
+function updatePill(){
+  document.getElementById('wavePill').textContent =
+    wave===4 ? challengeName(wave) : challengeName(wave);
+}
+
+function newAttempt(){
+  if(wave<4){
+    // pick a fresh shuffled set of 5 unique questions, excluding any already
+    // completed in previous waves so nothing repeats across waves/levels
+    const pool = [...Array(20).keys()].filter(i => !usedQuestions.has(i));
+    set = sh(pool).slice(0,5);
+  } else {
+    set = [20]; // final question
+  }
+  pos = 0;
+  updatePill();
+  draw();
+}
+
+function dotsHtml(){
+  if(wave===4) return ''; // no dots needed for single final question
+  let h = '<div class="dots">';
+  for(let i=0;i<set.length;i++){
+    let cls = i<pos ? 'done' : (i===pos ? 'current' : '');
+    h += '<div class="dot ' + cls + '"></div>';
+  }
+  h += '</div>';
+  return h;
+}
+
+function draw(){
+  const q = questions[set[pos]];
+  const waveLabel = wave===4 ? 'Final Round' : challengeName(wave);
+  const subLabel = wave===4 ? 'One Last Question' : ('Question ' + (pos+1) + ' of ' + set.length);
+
+  let h = '<div class="wave-title">' + waveLabel + '</div>';
+  h += '<div class="wave-name">' + subLabel + '</div>';
+  h += dotsHtml();
+  h += '<div class="question">' + q.q + '</div>';
+
+  q.a.forEach((x,i)=>{
+    h += '<button class="opt" onclick="pick(' + i + ')"><span class="letter">' + String.fromCharCode(65+i) + '</span>' + x + '</button>';
+  });
+
+  document.getElementById('content').innerHTML = h;
+}
+
+function flash(type, text){
+  const el = document.getElementById('flashEl');
+  const msg = document.getElementById('flashMsg');
+  el.className = 'flash show ' + type;
+  msg.textContent = text;
+  setTimeout(()=>{ el.className = 'flash'; }, 700);
+}
+
+function pick(i){
+  const q = questions[set[pos]];
+  if(i === q.c){
+    flash('correct','✔ CORRECT!');
+    pos++;
+    setTimeout(()=>{
+      if(pos >= set.length) show();
+      else draw();
+    }, 550);
+  } else {
+    flash('wrong','✘ INCORRECT!');
+    setTimeout(()=>{
+      if(wave < 4){
+        newAttempt(); // reshuffled new set of 5, must restart the wave
+      } else {
+        draw(); // final question: just retry
+      }
+    }, 650);
+  }
+}
+
+function show(){
+  // lock in this wave's questions so they never repeat in later waves
+  if(wave<4){
+    set.forEach(i => usedQuestions.add(i));
+  }
+  document.getElementById('wt').textContent = winners[wave].title;
+  document.getElementById('wn').textContent = winners[wave].name;
+  document.getElementById('wi').src = winners[wave].img;
+  document.getElementById('popup').style.display = 'flex';
+}
+
+function nextWave(){
+  document.getElementById('popup').style.display = 'none';
+  wave++;
+  if(wave > 4){
+    document.getElementById('content').innerHTML =
+      '<div class="final-banner">' +
+      '<h1>🎉 Congratulations!</h1>' +
+      '<img class="final-img" id="finalImg" src="JUNE_CRP.jpg" alt="Congratulations">' +
+      '<p>You unlocked all CRP June 2026 Winners at McDonald\'s Sangandaan Caloocan.</p>' +
+      '</div>';
+    document.getElementById('wavePill').textContent = 'Completed!';
+    return;
+  }
+  newAttempt();
+}
+
+// start directly on Wave 1
+newAttempt();
+</script>
+</body>
+</html>
